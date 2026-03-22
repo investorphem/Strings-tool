@@ -1,12 +1,16 @@
 {
   "name": "@investorphem/string-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "description": "Handy string utility functions for developers",
   "scripts": {
     "test": "node test.js"
   },
-  "keywords": ["string", "utils", "investorphem"],
+  "keywords": [
+    "string",
+    "utils",
+    "investorphem"
+  ],
   "author": "Oluwafemi Olagoke",
   "license": "MIT"
 }
