@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Auto Publish to npm
 
 on:
   push:
@@ -26,12 +26,18 @@ jobs:
       # 4️⃣ Optional: Run tests
       - run: npm test || echo "No tests found, continuing..."
 
-      # 5️⃣ Auto-increment patch version
+      # 5️⃣ Configure Git for npm version commit
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      # 6️⃣ Auto-increment patch version
       - name: Bump version
         run: |
           npm version patch -m "ci: bump version to %s"
 
-      # 6️⃣ Publish to npm
+      # 7️⃣ Publish to npm
       - name: Publish package
         run: npm publish --access public
         env:
