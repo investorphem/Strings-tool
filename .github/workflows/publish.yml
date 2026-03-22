@@ -1,84 +1,42 @@
-name: Production Publish to npm
+name: Publish SDK
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-      # 1️⃣ Checkout the repository
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
           registry-url: 'https://registry.npmjs.org/'
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Run tests (optional)
-      - name: Test
-        run: npm test || echo "No tests found"
-
-      # 5️⃣ Configure Git
-      - name: Setup Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-      # 6️⃣ Get current package version
-      - name: Get current version
-        id: current_version
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      # 7️⃣ Bump version (only for real commits, not bot commits)
-      - name: Bump version
-        if: "!contains(github.event.head_commit.message, 'ci: release')"
-        run: npm version patch -m "ci: release %s"
-
-      # 8️⃣ Push the bumped version back to GitHub
-      - name: Push version
-        if: "!contains(github.event.head_commit.message, 'ci: release')"
-        run: git push origin main --follow-tags
-
-      # 9️⃣ Get new version after bump (Line 53 Fix Area)
-      - name: Get new version
-        id: new_version
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      # 🔟 Check if the version already exists on npm
-      - name: Check version on npm
-        id: check_version
-        run: |
-          if ! npm view "@investorphem/string-tools@${{ steps.new_version.outputs.version }}" version > /dev/null 2>&1; then
-            echo "not_found=true" >> $GITHUB_OUTPUT
-          else
-            echo "not_found=false" >> $GITHUB_OUTPUT
-          fi
-
-      # 1️⃣1️⃣ Publish to npm only if version is new
       - name: Publish to npm
-        if: steps.check_version.outputs.not_found == 'true'
-        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Get the current version from package.json
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+          # Check if this specific version is already on npm
+          if npm view "$PACKAGE_NAME@$CURRENT_VERSION" version > /dev/null 2>&1; then
+            echo "⚠️ Version $CURRENT_VERSION already exists on npm. Skipping publish."
+            exit 0
+          else
+            echo "🚀 Publishing version $CURRENT_VERSION..."
+            npm publish --access public
+          fi
