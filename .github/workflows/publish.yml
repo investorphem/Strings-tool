@@ -14,29 +14,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo with full history
+      # 1️⃣ Checkout the repository
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2️⃣ Setup Node
+      # 2️⃣ Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
 
-      # 3️⃣ Install deps
+      # 3️⃣ Install dependencies
       - name: Install
         run: npm install
 
-      # 4️⃣ Run tests (safe fallback)
+      # 4️⃣ Run tests (optional)
       - name: Test
-        run: npm test || echo "No tests"
+        run: npm test || echo "No tests found"
 
-      # 5️⃣ Configure Git
+      # 5️⃣ Configure Git for commits
       - name: Setup Git
         run: |
           git config user.name "github-actions"
@@ -47,28 +47,28 @@ jobs:
         id: current_version
         run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
-      # 7️⃣ Bump version ONLY for real commits (not bot commits)
+      # 7️⃣ Bump version (only for real commits, not bot commits)
       - name: Bump version
         if: "!contains(github.event.head_commit.message, 'ci: release')"
         run: npm version patch -m "ci: release %s"
 
-      # 8️⃣ Push version back
-      - name: Push changes
+      # 8️⃣ Push version back to GitHub
+      - name: Push version
         if: "!contains(github.event.head_commit.message, 'ci: release')"
         run: git push origin main --follow-tags
 
-      # 9️⃣ Get new version
+      # 9️⃣ Get the new version after bump
       - name: Get new version
         id: new_version
         run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
-      # 🔟 Prevent duplicate publish
-      - name: Check if version exists on npm
+      # 🔟 Check if this version already exists on npm
+      - name: Check version on npm
         id: check_version
         run: |
           npm view @investorphem/string-tools@${{ steps.new_version.outputs.version }} version || echo "not_found=true" >> $GITHUB_OUTPUT
 
-      # 1️⃣1️⃣ Publish ONLY if version is new
+      # 1️⃣1️⃣ Publish package ONLY if it’s a new version
       - name: Publish to npm
         if: steps.check_version.outputs.not_found == 'true'
         run: npm publish --access public
