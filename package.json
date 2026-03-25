@@ -2,7 +2,7 @@
   "name": "@investorphem/string-tools",
   "version": "1.0.2",
   "main": "index.js",
-  "description": "Handy string utility functions for deelrs",
+  "description": "Handy string utility functions for eelrs",
   "scripts": {
     "test": "node test.js"
   },
