@@ -13,16 +13,18 @@
 
 `@investorphem/string-tools` is a robust, lightweight, and production-ready JavaScript utility library for handling common string operations.
 
-It is designed for developers who want **simple, fast, and dependency-free utilities** with **automated CI/CD publishing via GitHub Actions**.
+It is designed for developers who want **simple, fast, and dependency-free utilities** built for modern JavaScript environments with **automated CI/CD publishing via GitHub Actions**.
 
 ---
 
 ## ✨ Features
 
-* 🔠 Capitalize the first letter of any string
-* 🔗 Convert strings to kebab-case
-* 🔄 Reverse strings efficiently
-* ⚡ Zero dependencies (lightweight)
+* 🔠 **Capitalize** the first letter of any string
+* 🔗 Convert strings to **kebab-case**
+* 🔄 **Reverse** strings efficiently
+* 🛡️ **Null-Safe:** Safely handles empty or undefined inputs without crashing
+* ⚡ **Modern ESM:** Native ES Module support (`import`/`export`)
+* 🍃 **Zero dependencies** (ultra-lightweight)
 * 🤖 Fully automated npm publishing with GitHub Actions
 * 📦 Scoped package for better organization (`@investorphem/*`)
 
@@ -34,16 +36,27 @@ It is designed for developers who want **simple, fast, and dependency-free utili
 npm install @investorphem/string-tools
 ```
 
+or via yarn:
+
+```bash
+yarn add @investorphem/string-tools
+```
+
 ---
 
-## 🧠 Usage
+## 🧠 Usage (ES Modules)
 
-```js
-const { capitalize, kebabCase, reverse } = require('@investorphem/string-tools');
+Since version 1.0.3, this package uses standard ES Modules.
 
-console.log(capitalize('hello')); // Hello
-console.log(kebabCase('Hello World')); // hello-world
-console.log(reverse('abc')); // cba
+```javascript
+import { capitalize, kebabCase, reverse } from '@investorphem/string-tools';
+
+console.log(capitalize('hello'));       // "Hello"
+console.log(kebabCase('Hello World'));  // "hello-world"
+console.log(reverse('abc'));            // "cba"
+
+// Safely handles empty values
+console.log(capitalize(''));            // ""
 ```
 
 ---
@@ -60,13 +73,13 @@ Capitalizes the first character of a string.
 
 **Returns:**
 
-* *(string)* – Capitalized string
+* *(string)* – Capitalized string (returns empty string if input is falsy)
 
 ---
 
 ### `kebabCase(str)`
 
-Converts a string to kebab-case.
+Converts a string to kebab-case. Handles spaces and camelCase transitions.
 
 **Parameters:**
 
@@ -74,7 +87,7 @@ Converts a string to kebab-case.
 
 **Returns:**
 
-* *(string)* – Kebab-case string
+* *(string)* – Kebab-case string (returns empty string if input is falsy)
 
 ---
 
@@ -88,7 +101,7 @@ Reverses the input string.
 
 **Returns:**
 
-* *(string)* – Reversed string
+* *(string)* – Reversed string (returns empty string if input is falsy)
 
 ---
 
@@ -97,7 +110,6 @@ Reverses the input string.
 This project is fully automated using GitHub Actions:
 
 * On every push to `main`:
-
   * Version is automatically bumped (patch)
   * Package is published to npm
 
@@ -105,14 +117,14 @@ This project is fully automated using GitHub Actions:
 
 If publishing fails with:
 
-```
+```text
 403 Forbidden - You cannot publish over the previously published versions
 ```
 
 It means:
 
-* npm does **NOT allow publishing the same version twice**
-* Ensure version is properly incremented before publishing
+* npm does **NOT allow publishing the same version twice**.
+* Ensure the version is properly incremented before publishing.
 
 ---
 
@@ -163,7 +175,7 @@ npm version patch
 before:
 
 ```bash
-npm publish
+npm publish --access public
 ```
 
 ---
