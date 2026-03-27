@@ -1,16 +1,35 @@
 {
   "name": "@investorphem/string-tools",
   "version": "1.0.3",
+  "description": "Handy string utility functions for developers.",
   "main": "index.js",
-  "description": "Handy string utility functions for developers",
+  "type": "module",
   "scripts": {
     "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/investorphem/string-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/investorphem/string-tools/issues"
+  },
+  "homepage": "https://github.com/investorphem/string-tools",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/investorphem"
   },
   "keywords": [
     "string",
     "utils",
-    "investorphem"
+    "investorphem",
+    "helpers",
+    "formatting",
+    "tools"
   ],
   "author": "Oluwafemi Olagoke",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
