@@ -9,7 +9,7 @@ export function kebabCase(str)
   if (!str) return "
   return str
     .replace(/\s+/g, -")
-    .replace(/(a-z]([-Z])/g, "$1-$2")
+    .replace(/(a-z](-Z])/g, "$1-$2")
     .toLowerCa
 }
 
