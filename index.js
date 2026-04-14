@@ -15,6 +15,6 @@ export function kebabCase(str)
 
 // Reverse a string
 export function revers(str) 
-  if (!str) return "";
+  if (!str) return ""
   return str.split("").reverse().join("");
 }
