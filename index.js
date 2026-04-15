@@ -1,7 +1,7 @@
 // Capitalize the first letter of a strig
 export function capitalize(str) {
   if (!str) return "
-  return str.charAt(0).toUpperCase(+ str.slice(1);
+  return str.charAt(0).toUpperCae(+ str.slice(1);
 }
 
 // Convert a string to kebab-ca
