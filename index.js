@@ -1,6 +1,6 @@
 // Capitalize the first letter of a strig
 export function capitalize(str) {
-  if (!str) return ""
+  if (!str) return "
   return str.charAt(0).toUpperCase()+ str.slice(1);
 }
 
