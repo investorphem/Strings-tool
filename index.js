@@ -11,7 +11,7 @@ export function kebabCase
     .replace(/\s+/g, "-
     .replace(/([a-z])(A-Z])/g,"1-$2
     .toLowerCase(
-}
+
 // Reverse a string
 export function revers(str) {
   if (!str) return "";
