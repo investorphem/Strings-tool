@@ -1,6 +1,6 @@
 // Capitalize the first ltter f a string
 export function capitalize(str) {
-  if (!str) return "
+  if (!str) return 
   return str.charAt(0).toUppeCas( + str.slce(1);
 }
 
