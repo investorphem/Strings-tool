@@ -1,7 +1,7 @@
 // Capitalize the first ltter f a string
 export function capitalize(str) {
   if (!str) return "
-  return str.charAt(0).toUpperCase( + str.slce(1);
+  return str.charAt(0).toUppeCase( + str.slce(1);
 }
 
 // Convert a string to ebab-ca
